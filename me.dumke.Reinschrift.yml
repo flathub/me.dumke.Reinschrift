@@ -1,11 +1,15 @@
 app-id: me.dumke.Reinschrift
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: '50'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
   - org.freedesktop.Sdk.Extension.llvm20
 command: reinschrift
+# Übersetzungen (~13 KB je Sprache) im App-Paket belassen statt als
+# partiell installierte Locale-Extension — sonst läuft --language <lang>
+# für nicht konfigurierte Sprachen ins Leere.
+separate-locales: false
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
@@ -25,6 +29,12 @@ modules:
       - cargo build --release --offline --workspace
       - install -D target/release/reinschrift_todo /app/bin/reinschrift
       - install -D target/release/reinschrift /app/bin/reinschrift-cli
+      - |
+        for po in po/*.po; do
+          lang=$(basename "$po" .po)
+          install -d "/app/share/locale/$lang/LC_MESSAGES"
+          msgfmt -o "/app/share/locale/$lang/LC_MESSAGES/reinschrift.mo" "$po"
+        done
       - install -D me.dumke.Reinschrift.desktop /app/share/applications/me.dumke.Reinschrift.desktop
       - install -D me.dumke.Reinschrift.metainfo.xml /app/share/metainfo/me.dumke.Reinschrift.metainfo.xml
       - install -D icon/todos.png /app/share/icons/hicolor/512x512/apps/me.dumke.Reinschrift.png
@@ -34,7 +44,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/danst0/ReinschriftTodo.git
-        tag: v0.25.1
+        tag: v0.25.8
       - generated-sources.json
       - type: shell
         commands:
