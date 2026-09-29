@@ -44,8 +44,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/danst0/ReinschriftTodo.git
-        tag: v1.1.8
-        commit: ff1b88a09014d1d6b4d1d1d765cc4269e45d8e4c
+        tag: v1.2.0
+        commit: a2e51f23d8465700b47aeade64ec9d0dca9033c9
       - generated-sources.json
       - type: shell
         commands:
