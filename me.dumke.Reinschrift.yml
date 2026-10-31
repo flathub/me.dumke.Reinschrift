@@ -1,10 +1,10 @@
 app-id: me.dumke.Reinschrift
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
-  - org.freedesktop.Sdk.Extension.llvm20
+  - org.freedesktop.Sdk.Extension.llvm22
 command: reinschrift
 # Übersetzungen (~13 KB je Sprache) im App-Paket belassen statt als
 # partiell installierte Locale-Extension — sonst läuft --language <lang>
@@ -18,10 +18,10 @@ finish-args:
   - --share=network
   - --socket=pulseaudio
 build-options:
-  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm20/bin
+  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin
   env:
     CARGO_HOME: /run/build/reinschrift/cargo
-    LIBCLANG_PATH: /usr/lib/sdk/llvm20/lib
+    LIBCLANG_PATH: /usr/lib/sdk/llvm22/lib
 modules:
   - name: reinschrift
     buildsystem: simple
@@ -44,8 +44,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/danst0/ReinschriftTodo.git
-        tag: v1.2.1
-        commit: d2de7e65519f13629dda849b179883541bbc1653
+        tag: v1.2.3
+        commit: fddf8705816b3ec9e57b314ed601f8306de88e6d
       - generated-sources.json
       - type: shell
         commands:
